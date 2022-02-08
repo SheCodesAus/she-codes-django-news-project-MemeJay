@@ -28,5 +28,12 @@
         <p>No stories are available.</p>
     {% endif %}
 </div>
-<a href="{% url 'news:newStory' %}">Write New Story</a>
+
+<div>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'news:newStory' %}">Write New Story</a>
+        {% else %}
+        {% endif %}
+</div>
+
 {% endblock %}

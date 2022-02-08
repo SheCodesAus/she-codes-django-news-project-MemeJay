@@ -4,6 +4,7 @@ from django.views import generic
 from .models import CustomUser
 from .forms import CustomUserCreationForm
 from django.shortcuts import render
+from news.models import NewsStory
 
 
 class CreateAccountView(CreateView):
@@ -17,6 +18,11 @@ class ProfileView(generic.DetailView):
     model = CustomUser
     template_name = 'users/userProfile.html'
     context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_stories'] = NewsStory.objects.filter(author=self.kwargs['pk'])
+        return context
 
 def get_current_user(request):
     user = request.user

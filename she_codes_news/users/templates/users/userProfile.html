@@ -4,4 +4,12 @@
 <h2> Welcome {{ user.username }}</h2>
 
 <a href="{% url 'news:index' %}">View stories</a>
+
+<div>  
+    {% for story in user_stories %}
+        <h2><a href="{% url 'news:story' story.id %}">{{ story.title }}, <br> {{ story.author.username }} </a></h2>
+    
+        {% endfor %}
+   
+</div>
 {% endblock %}

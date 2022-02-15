@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView
 from django.views import generic
 from .models import CustomUser
 from .forms import CustomUserCreationForm
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from news.models import NewsStory
 
 
@@ -27,5 +27,7 @@ class ProfileView(generic.DetailView):
 def get_current_user(request):
     user = request.user
     return render(request, 'users/userProfile.html', {"user":user})
+
+
 
 # Create your views here.

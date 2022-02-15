@@ -8,8 +8,10 @@
 <div>  
     {% for story in user_stories %}
         <h2><a href="{% url 'news:story' story.id %}">{{ story.title }}, <br> {{ story.author.username }} </a></h2>
-    
-        {% endfor %}
+        {% if story.author == request.user %}
+            <a href="{% url 'news:updateStory' story.id %}">Edit Story</a>
+        {% endif %}
+    {% endfor %}
    
 </div>
 {% endblock %}

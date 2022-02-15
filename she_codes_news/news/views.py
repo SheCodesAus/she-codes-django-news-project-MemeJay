@@ -2,7 +2,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 from .models import NewsStory
 from .forms import StoryForm
-
+from django.core.exceptions import PermissionDenied
 
 class IndexView(generic.ListView):
     template_name = 'news/index.html'
@@ -31,3 +31,16 @@ class AddStoryView(generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class UpdateStoryView(generic.UpdateView):
+    model = NewsStory
+    form_class = StoryForm
+    context_object_name = 'storyForm'
+    template_name = 'news/createStory.html'
+    success_url = reverse_lazy('news:index')
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.author != self.request.user:
+            raise PermissionDenied
+        return obj
